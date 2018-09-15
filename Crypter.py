@@ -1,3 +1,4 @@
+#Я конечно хз что редачить, но думаю что моему комменту здесь есть место)
 import pyAesCrypt
 from tkinter import *
 from tkinter import ttk
