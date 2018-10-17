@@ -1,6 +1,7 @@
 # http://acmp.ru/index.asp?main=task&id_task=57
 
 from math import fabs
+import re
 
 # Function for check validation value (N) - count pig
 def N_isvalid(N):
@@ -38,10 +39,11 @@ def rouble_have(p):
 # Function for check validation coordinates
 def coordinates_isvalid(coordinates):
 
-    if ( str(coordinates).isdigit() ):
+    coordinates = re.match('\d+', coordinates)
 
-        if ( fabs(int(coordinates)) <= 1000 ):
-            return True
+    print(coordinates)
+    if ( int(coordinates) >= -1000 and int(coordinates) <= 1000 ):
+        return True
 
     return False
 
@@ -52,7 +54,9 @@ if __name__ == '__main__':
     count_rouble_need = 0
     count_rouble_have = 0
 
-    coordinates = []
+    pig_coordinates = []
+
+    provider_coordinate = []
 
     print('Settings: \n')
 
@@ -74,10 +78,24 @@ if __name__ == '__main__':
         if ( rouble_have(count_rouble_have) ):
             break
 
-    print('\nEnter "x" and "y" coordinates all pigs, where "x" and "y" <= 1000 by module \n')
+
+    print('\nEnter "x" and "y" coordinates, where "x" and "y" <= 1000 by module \n')
+
+    print('Provider coordinate\n')
+
+    while 1:
+
+        x = input('\tEnter "x" coordinate: ')
+        if coordinates_isvalid(x):
+
+            y = input('\tEnter "y" coordinate: ')
+            if coordinates_isvalid(y):
+
+                provider_coordinate.append([x, y])
+                break
+
 
     for pig in range( int(count_pig) ):
-
 
         error = False
 
@@ -96,10 +114,14 @@ if __name__ == '__main__':
                 y = input('\tEnter "y" coordinate: ')
                 if coordinates_isvalid(y):
 
-                    coordinates.append([x,y])
+                    pig_coordinates.append([x,y])
                     break
 
             error = True
 
+    tugrics = 0
+    for pig in pig_coordinates:
 
-    print(coordinates)
+        tugrics += (provider_coordinate[0] + pig[0]) + (provider_coordinate[1] + pig[1])
+
+    print(tugrics)
