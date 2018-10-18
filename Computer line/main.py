@@ -39,13 +39,14 @@ def rouble_have(p):
 # Function for check validation coordinates
 def coordinates_isvalid(coordinates):
 
-    coordinates = re.match('\d+', coordinates)
-
-    print(coordinates)
     if ( int(coordinates) >= -1000 and int(coordinates) <= 1000 ):
         return True
 
     return False
+
+
+def summ_tugrigs(coordinates):
+    pass
 
 
 if __name__ == '__main__':
@@ -85,14 +86,20 @@ if __name__ == '__main__':
 
     while 1:
 
-        x = input('\tEnter "x" coordinate: ')
-        if coordinates_isvalid(x):
+        try:
 
-            y = input('\tEnter "y" coordinate: ')
-            if coordinates_isvalid(y):
+            x = input('\tEnter "x" coordinate: ')
+            if coordinates_isvalid(x):
 
-                provider_coordinate.append([x, y])
-                break
+                y = input('\tEnter "y" coordinate: ')
+                if coordinates_isvalid(y):
+
+                    provider_coordinate.append([x, y])
+                    break
+
+        except:
+            print('Error')
+            continue
 
 
     for pig in range( int(count_pig) ):
@@ -103,25 +110,21 @@ if __name__ == '__main__':
 
         while 1:
 
-
             if error:
                 print('\n\tEnter "x" and "y" coordinates all pigs, where "x" and "y" <= 1000 by module \n')
                 error = False
 
-            x = input('\tEnter "x" coordinate: ')
-            if coordinates_isvalid(x):
+            try:
 
-                y = input('\tEnter "y" coordinate: ')
-                if coordinates_isvalid(y):
+                x = input('\tEnter "x" coordinate: ')
+                if coordinates_isvalid(x):
 
-                    pig_coordinates.append([x,y])
-                    break
+                    y = input('\tEnter "y" coordinate: ')
+                    if coordinates_isvalid(y):
 
-            error = True
+                        pig_coordinates.append([x, y])
+                        break
 
-    tugrics = 0
-    for pig in pig_coordinates:
-
-        tugrics += (provider_coordinate[0] + pig[0]) + (provider_coordinate[1] + pig[1])
-
-    print(tugrics)
+            except:
+                error = True
+                continue
