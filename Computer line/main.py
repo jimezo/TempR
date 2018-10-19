@@ -47,20 +47,38 @@ def coordinates_isvalid(coordinates):
 
 def summ_tugrigs(provider_coordinate, pig_coordinates, tugtic):
 
+    passed_coordinates = []
+    short_way = provider_coordinate
     result = 0
+    next_pig = 0
 
-    provide_x = provider_coordinate[0]
-    provide_y = provider_coordinate[1]
+    prov_x = fabs(int( provider_coordinate[0] ))
+    prov_y = fabs(int( provider_coordinate[1] ))
 
-    for pig in pig_coordinates:
+    pig_x = fabs(int( pig_coordinates[next_pig][0] ))
+    pig_y = fabs(int( pig_coordinates[next_pig][1] ))
 
-        pig_x = pig[0]
-        pig_y = pig[1]
+    result += ( prov_x + pig_x ) + ( prov_y + pig_y )
+    passed_coordinates.append( [pig_coordinates[next_pig][0], pig_coordinates[next_pig][1]] )
 
-        result += ( fabs(int(provide_x)) - fabs(int(pig_x)) ) + ( fabs(int(provide_y)) - fabs(int(pig_y)) )
+    if len(pig_coordinates) <= 1:
+        return result
 
-        print(pig_x, pig_y, result)
+    next_pig += 1
 
+    for pass_coord in passed_coordinates:
+
+
+        pass_x = fabs(int( pass_coord[0] ))
+        pass_y = fabs(int( pass_coord[1] ))
+
+        pig_x = fabs(int( pig_coordinates[next_pig][0] ))
+        pig_y = fabs(int( pig_coordinates[next_pig][1] ))
+
+        if ( (pass_x + pass_y) - (pig_x + pig_y) < (prov_x + prov_y) - (pig_x + pig_y)  ):
+            short_way = [pass_x, pass_y]
+
+    result += (fabs(int( short_way[0] )) + pig_x) + ( fabs(int( short_way[1] )) + pig_y)
     return result
 
 def do_exit(string):
