@@ -44,7 +44,7 @@ def coordinates_isvalid(coordinates):
 
     return False
 
-
+# This function search optimal way, calculate from this way to all_coordinates and return summ tugrigs
 def summ_tugrigs(provider_coordinate, pig_coordinates, tugtic):
 
     passed_coordinates = []
@@ -64,27 +64,36 @@ def summ_tugrigs(provider_coordinate, pig_coordinates, tugtic):
     if len(pig_coordinates) <= 1:
         return result
 
-    next_pig += 1
+    for pig in pig_coordinates:
 
-    for pass_coord in passed_coordinates:
+        next_pig += 1
+
+        try: pig = [pig_coordinates[next_pig][0], pig_coordinates[next_pig][1]]
+        except: break
 
 
-        pass_x = fabs(int( pass_coord[0] ))
-        pass_y = fabs(int( pass_coord[1] ))
+        for pass_coord in passed_coordinates:
 
-        pig_x = fabs(int( pig_coordinates[next_pig][0] ))
-        pig_y = fabs(int( pig_coordinates[next_pig][1] ))
+            pass_x = fabs(int( pass_coord[0] ))
+            pass_y = fabs(int( pass_coord[1] ))
 
-        if ( (pass_x + pass_y) - (pig_x + pig_y) < (prov_x + prov_y) - (pig_x + pig_y)  ):
-            short_way = [pass_x, pass_y]
+            pig_x = fabs(int( pig[0] ))
+            pig_y = fabs(int( pig[1] ))
 
-    result += (fabs(int( short_way[0] )) + pig_x) + ( fabs(int( short_way[1] )) + pig_y)
+            if ( (pass_x + pass_y) - (pig_x + pig_y) < (prov_x + prov_y) - (pig_x + pig_y)  ):
+                short_way = [pass_x, pass_y]
+
+
+        result += (fabs(int( short_way[0] )) + pig_x) + ( fabs(int( short_way[1] )) + pig_y)
+
     return result
+
 
 def do_exit(string):
     if str(string).lower == 'exit':
         return True
     return False
+    
 
 if __name__ == '__main__':
 
@@ -175,4 +184,4 @@ if __name__ == '__main__':
 
 
     tugrigs = summ_tugrigs(provider_coordinate, pig_coordinates, count_rouble_need)
-    print(tugrigs )
+    print(tugrigs * int(count_rouble_need) )
