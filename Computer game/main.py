@@ -46,7 +46,7 @@ class Heroes:
     def super_jump(self):
 
         try:
-            self.energy += self.platforms[ self.current_platform + 2 ] - self.heroes_coordinate
+            self.energy += ( self.platforms[ self.current_platform + 2 ] - self.heroes_coordinate ) * 3
         except:
             return True
         else:
@@ -71,6 +71,7 @@ class Heroes:
 
             try:
                 nn_energy = self.platforms[next_next_platform] - self.platforms[current_platform]
+                between_n_nn = n_energy + ( self.platforms[next_next_platform] - self.platforms[current_platform] )
             except: nn_energy = 30001
 
             if (n_energy < nn_energy):
@@ -78,7 +79,7 @@ class Heroes:
                 current_platform += 1
                 next_platform += 1
                 next_next_platform += 1
-            elif (n_energy > nn_energy):
+            elif (between_n_nn > nn_energy):
                 self.super_jump()
                 current_platform += 2
                 next_platform += 2
@@ -93,7 +94,7 @@ class Heroes:
 
 if __name__ == '__main__':
 
-    platforms = [1,5,10]
+    platforms = [1,5,2]
 
     heroes = Heroes()
     heroes.set_platforms(3, platforms)
