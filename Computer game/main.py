@@ -33,7 +33,7 @@ class Heroes:
         self.heroes_coordinate = self.platforms[ self.current_platform ]
 
     def jump(self):
-
+        print('jump')
         try:
             self.energy += self.platforms[ self.current_platform + 1 ] - self.heroes_coordinate
         except:
@@ -44,7 +44,7 @@ class Heroes:
 
 
     def super_jump(self):
-
+        print('super_jump')
         try:
             self.energy += ( self.platforms[ self.current_platform + 2 ] - self.heroes_coordinate ) * 3
         except:
