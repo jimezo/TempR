@@ -13,15 +13,19 @@ class Labyringth:
 
         self.Levels =  []
 
-        self.count_columns_on_level = 3
+        self.count_columns_on_level = 6
 
         self.prince_location = { 'level': 0, 'location': [] }
+
+        self.princess_location = 0
 
         self.count_rows = 0
 
         self.count_columns = 0
 
         self.count_levels = 0
+
+        self.ways = []
 
 
     def add_columns(self, level):
@@ -36,7 +40,21 @@ class Labyringth:
 
             if column not in columns_locations:
 
-                columns_locations.append(column)
+                if level + 1 == 1:
+
+                    if column != self.prince_location['location']:
+
+                        columns_locations.append(column)
+
+                elif level + 1 == self.count_levels:
+
+                    if column != self.princess_location:
+
+                        columns_locations.append(column)
+
+                else:
+
+                    columns_locations.append(column)
 
             else:
 
@@ -85,7 +103,6 @@ class Labyringth:
                         line = ''
 
 
-
     def set_labyrinth(self, count_level, labyrinth_height, labyrinth_width):
 
         if ( int(count_level) < 2 and int(labyrinth_height) > 50 and int(labyrinth_width) > 50):
@@ -102,6 +119,7 @@ class Labyringth:
 
             self.Levels.append( new_level )
 
+
             if ( level + 1 == 1 ):
 
                 self.Levels[level][0][0] = '1'
@@ -110,35 +128,33 @@ class Labyringth:
 
             if ( level + 1 == int(count_level) ):
 
-                princess_location = [ randint(0, self.count_columns - 1), randint(0, self.count_columns - 1) ]
+                self.princess_location = [ randint(0, self.count_columns - 1), randint(0, self.count_columns - 1) ]
 
-                self.Levels[ level ][ princess_location[0] ][ princess_location[1] ] = '2'
+                self.Levels[ level ][ self.princess_location[0] ][ self.princess_location[1] ] = '2'
 
             self.add_columns( level )
 
         self.print_labyrinth()
 
 
-    def find_free_location( level ):
+    def find_free_location(self, level ):
 
         for rows in range(self.count_rows):
 
             for cols in range(self.count_columns):
 
-                if ( level[rows][cols] == '.' ):
+                if ( self.Levels[ level ][ rows ][ cols ] == '.' ):
 
-                    return list(rows, cols)
+                    return [rows, cols]
 
 
     def break_the_floor(self):
 
         try:
 
-            self.prince_location['location'] = find_free_location( self.Level[self.prince_location['level'] + 1] )
+            self.prince_location['level'] += 1
 
-            delay = ( (self.count_rows * self.count_columns) - (self.prince_location['location'][1] * self.prince_location['location'][0] ) ) / 60
-
-            sleep(delay)
+            self.prince_location['location'] = self.find_free_location( self.Level[self.prince_location['level']] )
 
             return True
 
@@ -147,7 +163,91 @@ class Labyringth:
             return False
 
 
-    def analysis_level(self):
+    def check_princess(self, level, prince_location ):
+
+        try:
+
+            if (self.Levels[ level ][ prince_location[0] ][ prince_location[1] ] == '2' ):
+
+                return True
+
+            if (self.Levels[ level ][ prince_location[0] + 1 ][ prince_location[1] ] == '2' ):
+
+                return True
+
+            if (self.Levels[ level ][ prince_location[0] ][ prince_location[1] + 1 ] == '2' ):
+
+                return True
+
+            if (self.Levels[ level ][ prince_location[0] - 1 ][ prince_location[1] ] == '2' ):
+
+                return True
+
+            if (self.Levels[ level ][ prince_location[0] ][ prince_location[1] - 1] == '2' ):
+
+                return True
+
+        except:
+
+            return False
+
+
+    def move(self, ways, prince, depth = 0):
+
+        self.prince_location['location'] = prince
+
+        print('Location: ' , self.prince_location['location'])
+
+        if (prince[0] + 1 == self.count_rows and self.prince_location['level'] < self.count_levels):
+
+            return True
+
+        level = self.prince_location['level']
+
+        if ( level + 1 == self.count_levels ):
+
+            if self.check_princess( level, prince ):
+
+                return True
+
+        if ( depth == len(ways) ):
+
+            return False
+
+        if ( [ prince[0] + 1, prince[1] ] in ways ):
+
+            self.ways.append( [ prince[0] + 1, prince[1] ] )
+
+            self.move(ways, [ prince[0] + 1, prince[1] ], depth + 1 )
+
+            return True
+
+        if ( [ prince[0], prince[1] + 1 ] in ways ):
+
+            self.ways.append( [ prince[0], prince[1] + 1 ] )
+
+            self.move(ways, [ prince[0], prince[1] + 1 ], depth + 1 )
+
+            return True
+
+        if ( [ prince[0] - 1, prince[1] ] in ways ):
+
+            self.ways.append( [ prince[0] - 1, prince[1] ] )
+
+            self.move(ways, [ prince[0] - 1, prince[1] ], depth + 1 )
+
+            return True
+
+        if ( [ prince[0], prince[1] - 1 ] in ways ):
+
+            self.ways.append( [ prince[0], prince[1] - 1 ] )
+
+            self.move(ways, [ prince[0], prince[1] - 1 ], depth + 1 )
+
+            return True
+
+
+    def analysis_level(self, level):
 
         best_way = []
 
@@ -159,69 +259,73 @@ class Labyringth:
 
             for cols in range( self.count_columns ):
 
-                if ( self.Levels[rows][cols] == '.' ):
+                if self.Levels[level][rows][cols] == '.' or self.Levels[level][rows][cols] == '2':
 
-                    way.append( list(rows, cols) )
+                    way.append( [rows, cols] )
 
-                if self.Levels[rows][cols] == '2':
-
-                    best_way.append( list(rows, cols) )
-
-                    return best_way
-
-                else:
-
-                    if way:
-
-                        all_ways.append( list(cols, rows) )
-
-                    way.clear()
-
-        if best_way:
-
-            return best_way
-
-        for way_num in range(len(all_ways)):
+        for way_num in range(len(way)):
 
             try:
 
-                if all_ways[way_num][1] > all_ways[way_num + 1 ][1]:
+                if way[way_num][0] > way[way_num + 1 ][0]:
 
                     best_way.clear()
 
-                    best_way.append( all_ways[way_num] )
+                    best_way.append( way[way_num] )
+
+                elif way[way_num][0] < way[way_num + 1 ][0]:
+
+                    best_way.clear()
+
+                    best_way.append( way[way_num + 1] )
 
             except:
 
-                break
+                pass
 
-        return best_way
+        if not self.move(way, self.prince_location['location']):
+
+            self.break_the_floor()
+
+        else:
+
+            if level + 1 < self.count_levels:
+
+                x,y = self.find_free_location( level + 1 )
+
+                self.prince_location['level'] += 1
+
+                self.prince_location['location'] = [x,y]
+
+            elif ( level + 1 == self.count_levels ):
+
+                if self.check_princess( level, self.prince_location['location'] ):
+
+                    print('\n\n')
+
+                    return True
+
+        print('\n\n')
+
+        return False
 
 
     def prince_move(self):
 
-        best_way = analysis_level()
+        for level in range( self.count_levels ):
 
-        delay = 1
+            if self.analysis_level( level ):
 
-        for way in best_way:
+                print('Prince find princess')
 
-            old_location = self.prince_location['location']
+                break
 
-            self.prince_location['location'] = lisT( way[0], way[1] )
+            self.ways.clear()
 
-            self.Levels[ way[0], way[1] ] = self.prince_location['location']
-
-            self.Levels[ old_location ] = '.'
-
-            sleep( delay )
-
-        if self.prince_location['location'][1] < self.count_rows:
-
-            self.break_the_floor()
 
 
 if __name__ == '__main__':
 
     labyrinth = Labyringth()
-    labyrinth.set_labyrinth(3, 3, 3)
+    labyrinth.set_labyrinth(3, 4, 4)
+    labyrinth.prince_move()
