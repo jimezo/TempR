@@ -29,7 +29,7 @@ class TraficLight:
 
             self.crossroad.next = TraficLight()
 
-        else:
+        else: 
 
             self.crossroad.next.add_crossroad( key )
 
