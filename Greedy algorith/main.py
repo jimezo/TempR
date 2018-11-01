@@ -1,3 +1,5 @@
+import math # math.inf
+
 class GreedyAlgorith:
 
     # Function contractor
@@ -5,9 +7,18 @@ class GreedyAlgorith:
 
         self.size = size # Variable there save matrix size
 
-        self.matrix = [] # List there save matrix
+        self.matrix = [        # List there save matrix
 
-        self.min_values = {}
+                    [ math.inf, 5, 11, 9 ],
+                    [ 10, math.inf, 8, 7 ],
+                    [ 7, 14, math.inf, 8 ],
+                    [ 12, 6, 15, math.inf ],
+
+                ]
+
+        self.min_in_rows = []
+
+        self.min_in_cols = []
 
         self.optimal_way = {}
 
@@ -23,7 +34,7 @@ class GreedyAlgorith:
                 # Cols and rows not can cross yorself, so, add 0 to matrix and pass next value
                 if cols == rows:
 
-                    row.append(0)
+                    row.append( math.inf )
 
                     continue
 
@@ -34,67 +45,77 @@ class GreedyAlgorith:
             self.matrix.append( row )
 
 
+    def reduction_rows(self, matrix):
+
+        for rows in range( self.size ):
+
+            for cols in range( self.size ):
+
+                matrix[rows][cols] -= self.min_in_rows[rows]
+
+        return matrix
+
+
+    def reduction_cols(self, matrix):
+
+        for rows in range( self.size ):
+
+            for cols in range( self.size ):
+
+                matrix[cols][rows] -= self.min_in_cols[rows]
+
+        return matrix
+
+
     # This function find minimal value from matrix and return dict with minimal value
     def get_min(self):
 
-        for cols in range( self.size ):
+        if self.size == 0:
 
-            # Assign only one rows from matrix to variable min
-            min = max( self.matrix[cols] )
+            self.size = len(self.matrix)
 
-            for rows in range( self.size ):
+        matrix = self.matrix.copy()
 
-                if cols == rows:
+        # Find minimal values from rows
+        for rows in range( self.size ):
 
-                    continue
+            self.min_in_rows.append( min( matrix[rows] ) )
 
-                if self.matrix[cols][rows] < min:
+        matrix = self.reduction_rows( matrix )
 
-                    min = self.matrix[cols][rows]
+        for rows in range( self.size ):
 
-                if rows + 1 == size:
+            col = []
 
-                    # Save minimal value and him coordinates(cols, rows) in dict
-                    self.min_values[min] = [cols, rows]
+            for cols in range( self.size ):
 
-        # Return dict with minimal values
-        return self.min_values
+                col.append( matrix[cols][rows] )
+
+            self.min_in_cols.append( min(col) )
+
+        matrix = self.reduction_cols( matrix )
+
+        print("Changed matrix: ", matrix)
+        print ("Min in rows: ", self.min_in_rows)
+        print ("Min in cols: ", self.min_in_cols)
 
 
     # Function for run algorithm
-    def start_algorithm(self, depth = 0):
+    def start_algorithm(self):
 
-        # Exit from function if dict with minimal values is empty
-        if self.min_values == None:
+        matrix.show_matrix()
 
-            return
-
-        # Assign minimal key from dict
-        min_key = min(self.min_values.keys())
-
-        key, value = self.min_values[min_key]
-
-        # Delete element from dict
-        del self.min_values[min_key]
-
-        summ = sum( self.matrix[ depth ] ) - self.matrix[ value[0], value[1] ]
-
+        matrix.get_min()
 
 
     # This function show matrix on display
     def show_matrix(self):
 
-        print ( self.matrix )
+        print ('Original matrix: ', self.matrix )
 
 
 if __name__ == "__main__":
 
-    matrix = GreedyAlgorith(3)
+    matrix = GreedyAlgorith()
 
-    matrix.set_matrix()
-
-    matrix.show_matrix()
-
-    min_values = matrix.get_min()
-
-    print("Min values: ", min_values )
+    matrix.start_algorithm()
