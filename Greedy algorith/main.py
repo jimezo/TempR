@@ -65,6 +65,23 @@ class GreedyAlgorith:
                 matrix[cols][rows] -= self.min_in_cols[rows]
 
         return matrix
+        
+
+    def find_null_values( self, matrix ):
+
+        null_values = {}
+
+        for rows in range( self.size ):
+
+            for cols in range( self.size ):
+
+                if matrix[rows][cols] == 0:
+
+                    val = matrix[rows][cols]
+
+                    null_values[ 'val_' + str(rows) ] = [ rows, cols ]
+
+        return null_values
 
 
     # This function find minimal value from matrix and return dict with minimal value
@@ -95,9 +112,12 @@ class GreedyAlgorith:
 
         matrix = self.reduction_cols( matrix )
 
+        null_values = self.find_null_values( matrix )
+
         print("Changed matrix: ", matrix)
         print ("Min in rows: ", self.min_in_rows)
         print ("Min in cols: ", self.min_in_cols)
+        print("Null values: ", null_values )
 
 
     # Function for run algorithm
