@@ -1,4 +1,5 @@
 import math # math.inf
+import copy # copy.deepcopy()
 
 class GreedyAlgorith:
 
@@ -11,7 +12,7 @@ class GreedyAlgorith:
 
         self.min_values = []
 
-        self.optimal_way = {}
+        self.result = 0
 
 
     def set_matrix(self):
@@ -126,7 +127,7 @@ class GreedyAlgorith:
 
         min_in_cols = []
 
-        matrix = self.matrix.copy()
+        matrix = copy.deepcopy( self.matrix )
 
         # Find minimal values from rows
         for rows in range( self.size ):
@@ -153,6 +154,111 @@ class GreedyAlgorith:
         return matrix
 
 
+    def max_evaluation(self, evaluation):
+
+        evals = []
+
+        for eval in evaluation.values():
+
+            evals.append( [eval['eval'], eval['pos'][0] ] )
+
+        try:
+
+            return max( evals )
+
+        except:
+
+            return
+
+
+    def check_inf(self, elem, matrix):
+
+        count_inf_on_cols = 0
+
+        count_inf_on_rows = 0
+
+        for index in range( self.size ):
+
+            if matrix[ elem[0] ][ index ] == math.inf:
+
+                count_inf_on_cols += 1
+
+            if matrix[ index ][ elem[1] ] == math.inf:
+
+                count_inf_on_rows += 1
+
+        if count_inf_on_cols >= 2 or count_inf_on_rows >= 2:
+
+            return True
+
+        return False
+
+
+    # Strike out rows and cols on position elem, where have two 'inf'
+    def strike_out(self, elem, matrix):
+
+        for index in range( self.size ):
+
+            matrix[ elem[0] ][ index ] = math.inf
+
+            matrix[ index ][ elem[1] ] = math.inf
+
+        return matrix
+
+
+    def is_null(self, matrix):
+
+        for rows in range( self.size ):
+
+            for cols in range( self.size ):
+
+                if matrix[rows][cols] != math.inf:
+
+                    return False
+
+        return True
+
+
+    def calculate_result(self, evaluation, matrix):
+
+        while True:
+
+            max_eval = self.max_evaluation( evaluation )
+
+            if max_eval == None:
+
+                break
+
+            if matrix[ max_eval[1][0] ][ max_eval[1][1] ] != math.inf:
+
+                print(str(self.result) + ' + ' + str( matrix[ max_eval[1][0] ][ max_eval[1][1] ] ))
+
+                self.result += matrix[ max_eval[1][0] ][ max_eval[1][1] ]
+
+            matrix[ max_eval[1][0] ][ max_eval[1][1] ] = math.inf
+
+            if self.check_inf(max_eval[1], matrix):
+
+                matrix = self.strike_out( max_eval[1], matrix )
+
+                # Delete item from evaluation
+                for key in evaluation.keys():
+
+                    elem = evaluation[key]['pos']
+
+                    if matrix[ elem[0][0] ][ elem[0][1] ] == math.inf:
+
+                        evaluation.pop(key)
+
+                        break
+
+            if evaluation == None:
+
+                return None
+
+        return matrix
+
+
     # Function for run algorithm
     def start_algorithm(self):
 
@@ -160,18 +266,26 @@ class GreedyAlgorith:
 
         self.show_matrix()
 
-        matrix = self.get_min()
+        while True:
 
-        null_values = self.find_null_values( matrix )
+            matrix = self.get_min()
 
-        evaluation = self.find_evaluation(matrix, null_values)
+            null_values = self.find_null_values( matrix )
+
+            evaluation = self.find_evaluation(matrix, null_values)
+
+            M = self.calculate_result(evaluation, self.matrix)
+
+            if self.is_null(M):
+
+                break
 
         print("Changed matrix: ", matrix)
         print ("Min in rows: ", self.min_values[0])
         print ("Min in cols: ", self.min_values[1])
         print("Null values: ", null_values )
-        print("Evaluatons: ", evaluation)
-
+        print("Result: ", self.result)
+        print('M: ', M)
 
     # This function show matrix on display
     def show_matrix(self):
