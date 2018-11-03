@@ -4,7 +4,7 @@ import copy # copy.deepcopy()
 class GreedyAlgorith:
 
     # Function contractor
-    def __init__(self, matrix):
+    def __init__(self, matrix = None):
 
         self.size = 0 # Variable there save matrix size
 
@@ -14,8 +14,14 @@ class GreedyAlgorith:
 
         self.result = 0
 
+        self.optimal_way = []
+
 
     def set_matrix(self):
+
+        self.size = int( input("Enter matrix size: ") )
+
+        self.matrix = list()
 
         for cols in range( self.size ):
 
@@ -231,7 +237,7 @@ class GreedyAlgorith:
 
             if matrix[ max_eval[1][0] ][ max_eval[1][1] ] != math.inf:
 
-                print(str(self.result) + ' + ' + str( matrix[ max_eval[1][0] ][ max_eval[1][1] ] ))
+                self.optimal_way.append( max_eval[1] )
 
                 self.result += matrix[ max_eval[1][0] ][ max_eval[1][1] ]
 
@@ -262,9 +268,13 @@ class GreedyAlgorith:
     # Function for run algorithm
     def start_algorithm(self):
 
-        self.size = len( self.matrix )
+        if self.matrix != None:
 
-        self.show_matrix()
+            self.size = len( self.matrix )
+
+        else:
+
+            self.set_matrix()
 
         while True:
 
@@ -280,12 +290,11 @@ class GreedyAlgorith:
 
                 break
 
-        print("Changed matrix: ", matrix)
-        print ("Min in rows: ", self.min_values[0])
-        print ("Min in cols: ", self.min_values[1])
-        print("Null values: ", null_values )
         print("Result: ", self.result)
-        print('M: ', M)
+
+        for way in self.optimal_way:
+
+            print( str(way[0] + 1) + ' -> ' + str(way[1] + 1)  )
 
     # This function show matrix on display
     def show_matrix(self):
@@ -297,10 +306,10 @@ if __name__ == "__main__":
 
     M = [
 
-        [ math.inf, 5, 11, 9 ],
+        [ math.inf, 5, 11, 4 ],
         [ 10, math.inf, 8, 7 ],
-        [ 7, 14, math.inf, 8 ],
-        [ 12, 6, 15, math.inf ],
+        [ 7, 4, math.inf, 8 ],
+        [ 12, 2, 15, math.inf ],
 
     ]
 
