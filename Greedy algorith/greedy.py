@@ -14,7 +14,12 @@ class GreedyAlgorithm():
 
     def initMatrix(self):
 
-        self.matrix_size = int(input('Count city: '))
+        while True:
+            count_city = input('Count city: ')
+            if count_city.isdigit() and count_city != ' ':
+                self.matrix_size = int(count_city)
+                break
+
         for char in range(self.matrix_size):
             self.letters.append( chr(65 + char) )
 
@@ -29,7 +34,13 @@ class GreedyAlgorithm():
                 if from_city == to_city or to_city < from_city:
                     continue
 
-                distance = int(input('{} -> {} = '.format(self.letters[from_city], self.letters[to_city])))
+                distance = 0
+                while True:
+                    distance = input('{} -> {} = '.format(self.letters[from_city], self.letters[to_city]))
+                    if distance.isdigit() and distance != ' ':
+                        distance = int(distance)
+                        break
+
                 way[self.letters[to_city]] = distance
 
             if self.debug:
@@ -42,11 +53,19 @@ class GreedyAlgorithm():
 
 
     def set_sity(self):
-        from_to = input('Set from-to sity: ')
-        split_letter = from_to.split('-')
+        while True:
+            try:
+                from_to = input('Set from-to sity: ')
+                start_l, end_l = from_to.split('-')
+                if start_l and end_l in self.letters:
+                    break
+            except:
+                pass
+
         if self.debug:
-            print('SPLIT LETTER = ', split_letter)
-        return split_letter
+            print('SPLIT LETTER = ', [start_l, end_l])
+
+        return [start_l, end_l]
 
 
     def analysis(self, from_to):
