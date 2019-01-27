@@ -1,0 +1,39 @@
+﻿@page "/create"
+@using BlazorApp.Models
+@inject Context Context
+
+<label>Login</label>
+<input type="text" name="Login" bind="@Login" />
+
+<label>Message</label>
+<input type="text" name="Password" bind="@Message" />
+
+<button class="btn btn-primary" onclick="@AddPost">Create</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Login</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@functions {
+
+    public string Login { get; set; }
+    public string Message { get; set; }
+
+    protected async override Task OnInitAsync()
+    {
+        await Context.Initialize();
+    }
+
+    void AddPost()
+    {
+        var post = new Post { Login = Login, Message = Message };
+        Context.Posts.Add(post);
+        StateHasChanged();
+    }
+}

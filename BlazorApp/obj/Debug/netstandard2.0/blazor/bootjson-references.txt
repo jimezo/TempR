@@ -1,3 +1,6 @@
+BlazorDB.dll
+BlazorLogger.dll
+Cloudcrate.AspNetCore.Blazor.Browser.Storage.dll
 Microsoft.AspNetCore.Blazor.Browser.dll
 Microsoft.AspNetCore.Blazor.dll
 Microsoft.AspNetCore.Blazor.TagHelperWorkaround.dll

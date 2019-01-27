@@ -1,12 +1,8 @@
 ﻿using BlazorDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace BlazorApp
+namespace BlazorApp.Models
 {
-    public class Context
+    public class Context : StorageContext
     {
         public StorageSet<Post> Posts { get; set; }
     }
