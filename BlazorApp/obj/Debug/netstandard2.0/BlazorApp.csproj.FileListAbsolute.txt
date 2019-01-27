@@ -66,3 +66,5 @@ C:\Users\Bulat\Desktop\BlazorApp\obj\Debug\netstandard2.0\blazor\inputs.bootjson
 C:\Users\Bulat\Desktop\BlazorApp\obj\Debug\netstandard2.0\blazor\blazor.boot.json
 C:\Users\Bulat\Desktop\BlazorApp\obj\Debug\netstandard2.0\Pages\Help.g.i.cs
 C:\Users\Bulat\Desktop\BlazorApp\obj\Debug\netstandard2.0\Pages\Post.g.i.cs
+C:\Users\Bulat\Desktop\BlazorApp\bin\Debug\netstandard2.0\BlazorDB.dll
+C:\Users\Bulat\Desktop\BlazorApp\bin\Debug\netstandard2.0\BlazorLogger.dll

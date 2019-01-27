@@ -13,6 +13,15 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)cloudcrate.aspnetcore.blazor.browser.storage\0.5.1\contentFiles\any\netstandard2.0\Properties\launchSettings.json" Condition="Exists('$(NuGetPackageRoot)cloudcrate.aspnetcore.blazor.browser.storage\0.5.1\contentFiles\any\netstandard2.0\Properties\launchSettings.json')">
+      <NuGetPackageId>Cloudcrate.AspNetCore.Blazor.Browser.Storage</NuGetPackageId>
+      <NuGetPackageVersion>0.5.1</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>Properties\launchSettings.json</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Content Include="$(NuGetPackageRoot)blazordb\0.7.1\contentFiles\any\netstandard2.0\Properties\launchSettings.json" Condition="Exists('$(NuGetPackageRoot)blazordb\0.7.1\contentFiles\any\netstandard2.0\Properties\launchSettings.json')">
       <NuGetPackageId>BlazorDB</NuGetPackageId>
       <NuGetPackageVersion>0.7.1</NuGetPackageVersion>

@@ -48,6 +48,27 @@
           }
         }
       },
+      "Cloudcrate.AspNetCore.Blazor.Browser.Storage/0.5.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Blazor.Browser": "0.5.1",
+          "Microsoft.AspNetCore.Blazor.Build": "0.5.1",
+          "Microsoft.JSInterop": "0.5.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Cloudcrate.AspNetCore.Blazor.Browser.Storage.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Cloudcrate.AspNetCore.Blazor.Browser.Storage.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/netstandard2.0/Properties/launchSettings.json": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
+        }
+      },
       "Microsoft.AspNetCore.Blazor/0.7.0": {
         "type": "package",
         "dependencies": {
@@ -200,6 +221,20 @@
         "content/Properties/launchSettings.json",
         "contentFiles/any/netstandard2.0/Properties/launchSettings.json",
         "lib/netstandard2.0/BlazorLogger.dll"
+      ]
+    },
+    "Cloudcrate.AspNetCore.Blazor.Browser.Storage/0.5.1": {
+      "sha512": "8f5EAYSJKTEY9i7xNkhyXs6Jo4giN0hyUQYjPvMbfa+F5Z3/HOqZfVVSHY//JHBUol02APUDTjlyiJWW0D9mNg==",
+      "type": "package",
+      "path": "cloudcrate.aspnetcore.blazor.browser.storage/0.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cloudcrate.aspnetcore.blazor.browser.storage.0.5.1.nupkg.sha512",
+        "cloudcrate.aspnetcore.blazor.browser.storage.nuspec",
+        "content/Properties/launchSettings.json",
+        "contentFiles/any/netstandard2.0/Properties/launchSettings.json",
+        "lib/netstandard2.0/Cloudcrate.AspNetCore.Blazor.Browser.Storage.dll"
       ]
     },
     "Microsoft.AspNetCore.Blazor/0.7.0": {
@@ -727,6 +762,7 @@
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
       "BlazorDB >= 0.7.1",
+      "Cloudcrate.AspNetCore.Blazor.Browser.Storage >= 0.5.1",
       "Microsoft.AspNetCore.Blazor.Browser >= 0.7.0",
       "Microsoft.AspNetCore.Blazor.Build >= 0.7.0",
       "NETStandard.Library >= 2.0.3"
@@ -776,6 +812,10 @@
           "BlazorDB": {
             "target": "Package",
             "version": "[0.7.1, )"
+          },
+          "Cloudcrate.AspNetCore.Blazor.Browser.Storage": {
+            "target": "Package",
+            "version": "[0.5.1, )"
           },
           "Microsoft.AspNetCore.Blazor.Browser": {
             "target": "Package",
