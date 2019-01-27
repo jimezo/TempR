@@ -1,0 +1,42 @@
+﻿@using BlazorApp.Models
+@page "/help"
+@inject Context Context
+
+<label>Login</label>
+<input type="text" name="Login" bind="@Login" />
+
+<label>Message</label>
+<input type="text" name="Password" bind="@Message" />
+
+<button class="btn btn-primary" onclick="@AddPost">Send</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Login</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in posts)
+        {
+            <tr>
+                <td>@post.Login</td>
+                <td>@post.Message</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@functions {
+
+protected string Login { get; set; }
+protected string Message { get; set; }
+
+void AddPost()
+{
+    var post = new Post { Login = Login, Message = Message };
+    Context.Posts.Add(post);
+    StateHasChanged();
+}
+}
